@@ -119,5 +119,5 @@ const handleVote = (anecdote) => {
     </div>
   )
 }
-// 6.22 jejejejee32312321312
+// muuttuuko tää
 export default App
