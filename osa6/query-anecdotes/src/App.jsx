@@ -45,6 +45,14 @@ const addAnecdote = async (event) => {
   event.preventDefault();
   const content = event.target.anecdote.value;
   event.target.anecdote.value = '';
+
+   // Check if the content is less than 5 characters
+   if (content.length < 5) {
+    // Dispatch a notification for invalid input
+    dispatch({ type: 'SHOW_NOTIFICATION', message: 'Anecdotes must be 5 or more characters' });
+    return; // Exit the function
+  }
+
   const newAnecdote = { content, votes: 0 };
   newAnecdoteMutation.mutate(newAnecdote, {
     onSuccess: () => {
