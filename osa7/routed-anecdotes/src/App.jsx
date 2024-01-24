@@ -1,6 +1,6 @@
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, useParams
 } from 'react-router-dom'
 import { useState } from 'react'
 
@@ -17,14 +17,33 @@ const Menu = () => {
   )
 }
 
+// eslint-disable-next-line react/prop-types
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote =>
+      <li key={anecdote.id}>
+        <Link to={`/anecdote/${anecdote.id}`}>{anecdote.content}</Link>
+      </li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id;
+  const anecdote = anecdotes.find(a => a.id === Number(id));
+
+  return (
+    <div>
+      <h2>{anecdote.content}</h2>
+      <div>{anecdote.author}</div>
+      <div>{anecdote.info}</div>
+      <h3>has {anecdote.votes} votes</h3>
+    </div>
+  );
+}
+
 
 const About = () => (
   <div>
@@ -132,9 +151,10 @@ const App = () => {
         <h1>Software anecdotes</h1>
         <Menu />
         <Routes>
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path="/anecdote/:id" element={<Anecdote anecdotes={anecdotes} />} />
         <Route path="/create" element={ <CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
-        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
       </Routes>
         <Footer />
       </div>
