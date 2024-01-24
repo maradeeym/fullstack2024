@@ -38,7 +38,9 @@ const Anecdote = ({ anecdotes }) => {
     <div>
       <h2>{anecdote.content}</h2>
       <div>{anecdote.author}</div>
-      <div>{anecdote.info}</div>
+      <div>
+      for more info see <a href={anecdote.info} target="_blank" rel="noopener noreferrer">{anecdote.info}</a>
+      </div>
       <h3>has {anecdote.votes} votes</h3>
     </div>
   );
