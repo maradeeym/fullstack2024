@@ -1,11 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+// osa 7 tehtävä
+import React, { useState } from 'react';
+import { useCountry } from './hooks/index'; 
 
 const App = () => {
+  const [filter, setFilter] = useState('');
+  const { visibleCountries, selectedCountry, weather, filterCountries, selectCountry, notFoundMessage } = useCountry();
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+    filterCountries(event.target.value);
+  };
+
+  return (
+    <div>
+      <p>Type to search for a country:</p>
+      <input 
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder='Enter country name'
+      />
+
+      {notFoundMessage && <p>{notFoundMessage}</p>}
+
+  
+      {visibleCountries.length > 1 && (
+        <ul>
+          {visibleCountries.map((country, index) => (
+            <li key={country.name.common + index}>
+              {country.name.common}
+              <button onClick={() => selectCountry(country.name.common)}>Select</button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {selectedCountry && (
+        <div>
+          <h2>{selectedCountry.name.common}</h2>
+          <p><strong>Capital:</strong> {selectedCountry.capital[0]}</p>
+          <p><strong>Population:</strong> {selectedCountry.population.toLocaleString()}</p>
+          <p><strong>Languages:</strong> {Object.values(selectedCountry.languages).join(', ')}</p>
+          <img src={selectedCountry.flags.png} alt={`Flag of ${selectedCountry.name.common}`} style={{ width: '150px' }} />
+        </div>
+      )}
+
+      {weather && (
+        <div>
+          <h3>Weather in {weather.name}</h3>
+          <p><strong>Temperature:</strong> {weather.main.temp}°C</p>
+          <p><strong>Condition:</strong> {weather.weather[0].main}</p>
+          <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt="Weather icon" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+
+
+// osa2 tehtävä 
+/*
+const App = () => {
+
   const [allCountries, setAllCountries] = useState([]);
   const [visibleCountries, setVisibleCountries] = useState([]);
   const [filter, setFilter] = useState('');
   const [weather, setWeather] = useState(null);
+  
 
   useEffect(() => {
     const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/all/';
@@ -63,6 +125,7 @@ const App = () => {
     }
   }, [visibleCountries]);
 
+
   return (
     <div>
       <p>Type to search for a country:</p>
@@ -105,3 +168,4 @@ const App = () => {
 };
 
 export default App;
+*/
