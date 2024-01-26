@@ -73,19 +73,12 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  /*
-  const [content, setContent] = useState('')
-  */
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
   
   const navigate = useNavigate() 
 
   const content = useField('text')
-  //const author = useField('text')
-  //const info = useField('text')
-
-
+  const author = useField('text')
+  const info = useField('text')
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -95,8 +88,6 @@ const CreateNew = (props) => {
       info: info.value,
       votes: 0
     });
-
-    // Resetting the form fields
     
     navigate('/');
     props.setNotification(`A new anecdote '${content.value}' was created`);
@@ -147,19 +138,7 @@ const App = () => {
   ])
 
 const [notification, setNotification] = useState('')
-/*
-  const Notification = ({ message }) => {
-    if (message === null) {
-      return null;
-    }
-    
-    return (
-      <div>
-        {message}
-      </div>
-    );
-  };
-*/
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
